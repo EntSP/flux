@@ -1,0 +1,15 @@
+{% callout type="danger" %}
+## ⚡ SAFETY FIRST ⚡
+
+**HIGH VOLTAGE EQUIPMENT**
+
+The PSU-5000 series can output dangerous voltages and currents capable of causing SEVERE INJURY OR DEATH. Before operating this equipment:
+
+1. ✓ Read the complete [High Voltage Safety Note](safety-note-psu-high-voltage)
+2. ✓ Ensure you are qualified to work with high-voltage equipment
+3. ✓ Use appropriate personal protective equipment (PPE)
+4. ✓ Verify protective earth connection
+5. ✓ Never work alone with high-voltage equipment
+
+**If you are not qualified or trained to work with high-voltage equipment, do not operate this device.**
+{% /callout %}

@@ -1,0 +1,363 @@
+---
+id: "issue-2025-10-15-003"
+type: "known_issue"
+title: "Web UI graph rendering fails with >10,000 data points"
+status: "workaround_available"
+severity: "medium"
+language: "en-us"
+creationDate: "2025-10-15"
+updateDate: "2025-11-02"
+discoveredDate: "2025-10-10"
+resolvedDate: ""
+affectedVersions: ["1.3.0", "1.4.0", "1.5.0"]
+resolvedInVersion: ""
+tickets: ["BUG-2341", "SUPPORT-1523", "SUPPORT-1687"]
+tags: ["web-ui", "performance", "graphing", "browser-crash"]
+workarounds: ["limit-data-points", "use-data-export"]
+accessLevel: ["public"]
+relatedIssues: ["issue-2025-09-20-001", "issue-2025-10-12-005"]
+files:
+  - path: "assets/browser-console-error.png"
+    type: "image"
+    description: "Browser console showing memory exhaustion error"
+  - path: "assets/reproduction-steps.mp4"
+    type: "video"
+    description: "Video showing issue reproduction"
+  - path: "assets/memory-profile.json"
+    type: "data"
+    description: "Chrome DevTools memory profile during crash"
+  - url: "https://github.com/chartjs/Chart.js/issues/12345"
+    type: "link"
+    description: "Related Chart.js upstream issue"
+---
+
+# Known Issue: Web UI Graph Rendering Fails with Large Datasets
+
+**Issue ID:** {% $markdoc.frontmatter.id %}
+**Severity:** {% $markdoc.frontmatter.severity.toUpperCase() %}
+**Status:** {% $markdoc.frontmatter.status.replace(/_/g, ' ').toUpperCase() %}
+**Discovered:** {% $markdoc.frontmatter.discoveredDate %}
+**Last Updated:** {% $markdoc.frontmatter.updateDate %}
+
+{% callout type="warning" %}
+**Impact**: When viewing power graphs with more than 10,000 data points, the web UI may become unresponsive or crash, particularly on systems with limited memory (<8GB RAM).
+{% /callout %}
+
+## Affected Products
+
+- **PSU-5000 Web Interface** (firmware versions 1.3.0, 1.4.0, 1.5.0)
+- **PSU-3000-X Web Interface** (firmware versions 1.3.0+)
+- **PSU-10000 Web Interface** (firmware versions 1.3.0+)
+
+All products using the Chart.js-based graphing interface introduced in version 1.3.0.
+
+## Description
+
+When users attempt to view power monitoring graphs spanning long time periods (typically >3 hours at 1-second sampling), the web browser accumulates more than 10,000 data points in memory. This causes:
+
+1. **Browser slowdown**: UI becomes sluggish and unresponsive
+2. **High memory usage**: Browser tab consumes 2-4 GB of RAM
+3. **Browser tab crash**: On systems with <8GB RAM, the tab or entire browser may crash
+4. **Data loss**: Unsaved settings or configurations may be lost during crash
+
+The issue is most commonly reported when:
+- Users leave graphs running overnight
+- Long-term trend analysis is attempted
+- Multiple graph traces are enabled simultaneously
+- Browser DevTools is open during graphing
+
+## Root Cause
+
+The issue stems from several contributing factors:
+
+1. **Unbounded data accumulation**: Current implementation stores all received data points in browser memory without pruning old data
+2. **Chart.js rendering overhead**: Each data point requires ~200 bytes of memory for rendering metadata
+3. **IndexedDB caching**: Cached data is duplicated in memory during graph rendering
+4. **Browser garbage collection**: Old data points are not efficiently garbage collected
+
+**Memory Calculation:**
+```
+10,000 points × 3 traces × 200 bytes = 6 MB (just for chart data)
++ IndexedDB cache duplication = 12 MB total
++ Chart.js rendering structures = ~20-30 MB total per graph
+```
+
+With multiple browser tabs open, this can quickly exhaust available memory on systems with <8GB RAM.
+
+## How to Reproduce
+
+### Minimal Reproduction Steps
+
+1. Connect PSU-5000 (firmware 1.3.0 or later) to network
+2. Open web UI in Chrome/Firefox
+3. Navigate to Power Monitoring → Graphs
+4. Enable all three traces (Voltage, Current, Power)
+5. Set time range to "Continuous" (no limit)
+6. Let graph run for 3+ hours (accumulating ~10,800 data points)
+7. Observe browser tab becoming unresponsive
+
+### Video Reproduction
+
+See attached [reproduction video]({{ files.find(f => f.type === 'video').cdnUrl }}) for step-by-step demonstration.
+
+### System Requirements to Trigger Issue
+
+- **Browser**: Chrome 110+, Firefox 115+, Edge 110+ (any modern browser)
+- **System RAM**: <8GB (more likely to crash)
+- **Operating System**: Any (Windows, macOS, Linux)
+- **Data points**: >10,000 accumulated points
+
+## Symptoms & Diagnostics
+
+### User-Visible Symptoms
+
+- Graph stops updating in real-time
+- Mouse cursor becomes "spinning wheel" or "hourglass"
+- Browser tab title shows "(Not Responding)"
+- Scrolling and zooming become very slow
+- Browser may display "Page Unresponsive" warning
+
+### Browser Console Errors
+
+![Browser Console Error]({{ files.find(f => f.description.includes('console-error')).cdnUrl }})
+
+Typical console errors observed:
+
+```
+Uncaught RangeError: Maximum call stack size exceeded
+    at Chart.update (chart.js:4523)
+
+VM allocation failed: process out of memory
+
+Allocation failed - JavaScript heap out of memory
+```
+
+### Memory Profile
+
+The attached [memory profile]({{ files.find(f => f.type === 'data').cdnUrl }}) shows memory growth over time, confirming the unbounded accumulation.
+
+## Workarounds
+
+While a permanent fix is being developed, users can employ these workarounds:
+
+### Workaround 1: Limit Time Range (Recommended)
+
+**Effectiveness:** ✓✓✓ Fully prevents the issue
+**Difficulty:** Easy
+
+Instead of using "Continuous" mode, select a fixed time range:
+
+1. In graph settings, click **Time Range** dropdown
+2. Select one of the preset ranges:
+   - **1 minute** (60 points)
+   - **5 minutes** (300 points)
+   - **1 hour** (3,600 points)
+   - **3 hours** (10,800 points - near limit, use caution)
+3. Graph will automatically purge old data beyond the time range
+4. Memory usage remains stable
+
+**Limitation:** Cannot view data older than selected time range.
+
+### Workaround 2: Reduce Sampling Rate
+
+**Effectiveness:** ✓✓ Extends safe operation time
+**Difficulty:** Easy
+
+Change the data sampling rate to reduce point accumulation:
+
+1. Navigate to **Settings** → **Data Acquisition**
+2. Change **Sampling Interval** from 1 second to:
+   - **5 seconds** (5x fewer points)
+   - **10 seconds** (10x fewer points)
+   - **1 minute** (60x fewer points)
+3. Apply settings and reload graph
+
+**Limitation:** Lower time resolution may miss transient events.
+
+### Workaround 3: Disable Unused Traces
+
+**Effectiveness:** ✓ Reduces memory by 33-66%
+**Difficulty:** Very easy
+
+Only enable the graph traces you actually need:
+
+1. Click legend items to toggle traces on/off
+2. Disable **Voltage** if only monitoring current
+3. Disable **Power** if only monitoring voltage/current
+4. Each disabled trace reduces memory usage by ~33%
+
+**Limitation:** Cannot view all parameters simultaneously.
+
+### Workaround 4: Use Data Export Instead
+
+**Effectiveness:** ✓✓✓ Completely bypasses issue
+**Difficulty:** Medium
+
+For long-term analysis, export data and analyze offline:
+
+1. Configure desired time range and sampling in **Settings**
+2. Click **Export** button in graph toolbar
+3. Select **CSV** or **JSON** format
+4. Download data file
+5. Analyze in Excel, Python, MATLAB, or other tools
+
+**Limitation:** No real-time visualization, requires external tools.
+
+### Workaround 5: Periodic Page Refresh
+
+**Effectiveness:** ✓ Temporary relief
+**Difficulty:** Easy (but manual)
+
+Manually refresh the page before memory exhaustion:
+
+1. Monitor graph for 1-2 hours
+2. Press **F5** or **Ctrl+R** to refresh page
+3. This clears memory and starts fresh
+4. Note: Unsaved settings will be lost
+
+**Limitation:** Loses historical data, interrupts monitoring.
+
+## Planned Fix
+
+**Target Release:** Version 1.6.0 (planned for Q1 2026)
+
+The engineering team is developing a comprehensive fix that includes:
+
+1. **Automatic data pruning**: Implement rolling buffer that automatically removes old data points
+2. **Configurable buffer size**: Allow users to set maximum data points (default: 10,000)
+3. **Progressive rendering**: Only render visible data points, not entire dataset
+4. **Improved memory management**: Better garbage collection and memory cleanup
+5. **Data downsampling**: Automatically downsample old data to reduce point count while maintaining visual fidelity
+
+**Development Status:**
+- ✓ Root cause identified (Oct 15, 2025)
+- ✓ Fix designed and reviewed (Oct 20, 2025)
+- ⧗ Implementation in progress (ETA: Nov 30, 2025)
+- ⧗ Testing and validation (ETA: Dec 15, 2025)
+- ⧗ Beta firmware release (ETA: Dec 30, 2025)
+- ⧗ Production release 1.6.0 (ETA: Jan 15, 2026)
+
+## Related Issues
+
+This issue is related to:
+
+- [Issue #issue-2025-09-20-001](issue-2025-09-20-001): Browser freezes during long exports
+- [Issue #issue-2025-10-12-005](issue-2025-10-12-005): Mobile web UI crashes on graphs
+- [Chart.js Upstream Issue #12345]({{ files.find(f => f.description.includes('Chart.js')).url }}): Large dataset performance
+
+## Frequently Asked Questions
+
+### Q: Is this a hardware problem with my PSU?
+**A:** No, this is purely a web UI software issue. Your PSU hardware is functioning normally. The problem only affects the browser-based graph display.
+
+### Q: Will I lose my data if the browser crashes?
+**A:** No. All measurement data is stored in the PSU's internal memory and is not lost when the browser crashes. You can recover the data using:
+- Data export feature (before crash)
+- USB logging (if enabled)
+- SCPI commands via external tools
+
+### Q: Does this affect the PSU's actual operation?
+**A:** No. The browser crash only affects the web interface. The PSU continues to operate normally, regulate voltage/current, and collect data internally.
+
+### Q: Can I use a more powerful computer to avoid this?
+**A:** Systems with >16GB RAM are less likely to crash, but will still experience slowdowns with very large datasets. The workarounds above are recommended regardless of system specs.
+
+### Q: Why wasn't this caught in testing?
+**A:** Our initial testing focused on typical usage patterns (15-30 minute sessions). This issue only manifests during extended multi-hour graphing sessions, which wasn't part of our original test matrix. We have since added long-duration testing.
+
+### Q: Will version 1.6.0 be a free update?
+**A:** Yes. Firmware updates are always free for all PSU-5000 series users. The update will be available via the web UI's built-in update mechanism.
+
+## Support & Reporting
+
+If you encounter this issue:
+
+1. **Try the workarounds above first** - particularly limiting time range
+2. **Document your configuration**:
+   - Firmware version (Settings → About)
+   - Browser and version (e.g., Chrome 120.0)
+   - System RAM
+   - Time range and sampling rate used
+3. **Contact support** if workarounds are insufficient:
+   - Email: support@example.com
+   - Phone: +1-555-0123
+   - Reference: Issue ID {% $markdoc.frontmatter.id %}
+
+**Additional reports help us prioritize the fix**, so please report even if workarounds resolve your immediate issue.
+
+## Technical Details
+
+For engineering teams and advanced users:
+
+### Memory Profiling Data
+
+The attached memory profile shows:
+- Linear memory growth of ~6.7 MB/hour with 3 traces at 1-second sampling
+- Plateau at ~2.8 GB before browser OOM crash
+- Garbage collection occurs but fails to free chart-related objects
+
+### Chart.js Configuration
+
+Current configuration causing the issue:
+
+```javascript
+// Problematic configuration (versions 1.3.0-1.5.0)
+const chartConfig = {
+  data: {
+    datasets: allDataPoints  // Unbounded array
+  },
+  options: {
+    animation: false,
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          displayFormats: { second: 'HH:mm:ss' }
+        }
+      }
+    }
+  }
+};
+```
+
+### Proposed Fix (v1.6.0)
+
+```javascript
+// Fixed configuration with data pruning
+const MAX_POINTS = 10000;
+
+function updateGraph(newDataPoint) {
+  allDataPoints.push(newDataPoint);
+
+  // Prune old data if exceeding limit
+  if (allDataPoints.length > MAX_POINTS) {
+    allDataPoints.shift();  // Remove oldest point
+  }
+
+  chart.update('none');  // Update without animation
+}
+```
+
+### External Dependencies
+
+- **Chart.js:** v4.4.0 (current), v4.5.0 (planned upgrade in 1.6.0)
+- **Luxon:** v3.4.0 (date/time handling)
+- **IndexedDB:** Browser native (for data caching)
+
+## Acknowledgments
+
+**Issue discovered by:** Support team analysis of customer reports
+**Root cause identified by:** Engineering team (Oct 15, 2025)
+**Workarounds validated by:** QA team (Oct 18, 2025)
+**Fix designed by:** Software team lead (Oct 20, 2025)
+
+**Customer reports:** 23 unique reports across 3 weeks
+**Internal reproduction:** Confirmed on Windows, macOS, and Linux
+
+---
+
+**Status Update Schedule:** This issue page is updated weekly (every Monday) with progress on the fix.
+**Last Status Update:** {% $markdoc.frontmatter.updateDate %}
+**Next Status Update:** 2025-11-09
+
+**Notifications:** Users who have reported this issue will be notified via email when version 1.6.0 is released.

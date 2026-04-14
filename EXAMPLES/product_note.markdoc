@@ -1,0 +1,326 @@
+---
+id: "pn-2025-10-015"
+type: "product_note"
+noteType: "replacement"
+title: "PSU-3000 Series Replacement by PSU-3000-X Series"
+description: "Product transition notice: PSU-3000 series will be replaced by new PSU-3000-X series with enhanced features"
+affectedProducts: ["PSU-3000", "PSU-3000-LV"]
+replacementProducts: ["PSU-3000-X", "PSU-3000-X-LV"]
+tags: ["product-transition", "psu-3000", "psu-3000-x", "replacement"]
+language: "en-us"
+status: "published"
+creationDate: "2025-10-15"
+updateDate: "2025-10-28"
+publishDate: "2025-11-01"
+effectiveDate: "2026-01-15"
+accessLevel: ["public"]
+relatedDocuments:
+  - id: "manual-psu-3000-x-quickstart"
+    relationship: "references"
+  - id: "pn-2025-10-016"
+    relationship: "related"
+  - id: "guide-migration-psu3000-to-psu3000x"
+    relationship: "references"
+files:
+  - path: "assets/psu-3000-x-product-photo.jpg"
+    type: "image"
+    description: "PSU-3000-X product photograph"
+  - path: "assets/comparison-chart.pdf"
+    type: "pdf"
+    description: "PSU-3000 vs PSU-3000-X feature comparison"
+  - path: "assets/migration-guide.pdf"
+    type: "pdf"
+    description: "Migration guide for existing customers"
+  - url: "https://www.example.com/products/psu-3000-x"
+    type: "link"
+    description: "PSU-3000-X product page (external)"
+---
+
+# Product Note: PSU-3000 Series Replacement
+
+**Document ID:** {% $markdoc.frontmatter.id %}
+**Published:** {% $markdoc.frontmatter.publishDate %}
+**Effective:** {% $markdoc.frontmatter.effectiveDate %}
+
+{% callout type="info" %}
+**Product Transition Announcement**: The PSU-3000 series is being replaced by the new PSU-3000-X series, featuring enhanced performance, improved efficiency, and new capabilities.
+{% /callout %}
+
+## Summary
+
+Effective **January 15, 2026**, the PSU-3000 series programmable power supplies will be replaced by the new PSU-3000-X series. This document outlines the transition timeline, product differences, migration guidance, and support for existing customers.
+
+![PSU-3000-X Product Photo]({{ files.find(f => f.description.includes('product-photo')).cdnUrl }})
+
+## Affected Products
+
+The following products are being replaced:
+
+| Model | Status | Last Order Date | Replacement Model |
+|-------|--------|-----------------|-------------------|
+| **PSU-3000** | Being replaced | 2026-01-15 | **PSU-3000-X** |
+| **PSU-3000-LV** | Being replaced | 2026-01-15 | **PSU-3000-X-LV** |
+
+## Replacement Products
+
+### PSU-3000-X Series
+
+The new PSU-3000-X series offers significant improvements:
+
+**Key Enhancements:**
+- **Higher efficiency**: >92% typical (vs. 88% in PSU-3000)
+- **Lower noise**: <5mVrms output ripple (vs. 10mVrms)
+- **Faster transient response**: <50μs (vs. 100μs)
+- **Enhanced connectivity**:
+  - Gigabit Ethernet (100Mbps in PSU-3000)
+  - USB-C (USB-B in PSU-3000)
+  - Optional Wi-Fi module
+- **Improved user interface**: 4.3" color touchscreen (vs. 2.4" monochrome LCD)
+- **Remote sensing**: Standard (optional in PSU-3000)
+- **Programmable sequences**: 100 program slots (10 in PSU-3000)
+
+**Maintained Capabilities:**
+- Same output specifications (0-30V, 0-100A, 3000W)
+- Compatible mounting (drop-in rack replacement)
+- Same output connector types
+- Backward compatible SCPI command set
+
+For complete feature comparison, see the [comparison chart PDF]({{ files.find(f => f.description.includes('comparison')).cdnUrl }}).
+
+## Timeline
+
+| Date | Milestone |
+|------|-----------|
+| **2025-11-01** | PSU-3000-X series announcement (this document) |
+| **2025-11-15** | PSU-3000-X available for pre-order |
+| **2025-12-15** | First PSU-3000-X units ship to customers |
+| **2026-01-15** | PSU-3000 last order date (effective date) |
+| **2026-03-31** | PSU-3000 production ends |
+| **2026-06-30** | PSU-3000 final shipments |
+| **2031-06-30** | PSU-3000 support end-of-life (5 years from last shipment) |
+
+## Impact on Customers
+
+### Current PSU-3000 Owners
+
+{% callout type="note" %}
+**No immediate action required.** Your existing PSU-3000 units will continue to be fully supported:
+
+- **Firmware updates**: Until 2028-06-30 (3 years)
+- **Technical support**: Until 2031-06-30 (5 years)
+- **Spare parts availability**: Until 2031-06-30 (5 years)
+- **Calibration services**: Until 2031-06-30 (5 years)
+{% /callout %}
+
+### New Orders
+
+Customers placing new orders should consider:
+
+1. **Before 2026-01-15**: Both PSU-3000 and PSU-3000-X available
+   - PSU-3000: Current pricing, immediate availability
+   - PSU-3000-X: Premium pricing initially, may have lead time
+
+2. **After 2026-01-15**: Only PSU-3000-X available for new orders
+   - Some PSU-3000 inventory may remain (while supplies last)
+   - Contact sales for availability
+
+### Existing Purchase Orders
+
+Purchase orders for PSU-3000 series received before the last order date (2026-01-15) will be honored based on:
+
+- **Stock availability**: Units will be fulfilled from existing inventory
+- **Lead time**: May be extended as production winds down
+- **Substitution option**: Customers may request PSU-3000-X substitution at equivalent pricing
+
+Contact your sales representative to discuss options for existing orders.
+
+## Pricing and Availability
+
+### PSU-3000-X Pricing (Effective 2025-11-15)
+
+| Model | List Price | Early Adopter Pricing* | Upgrade Pricing** |
+|-------|-----------|------------------------|-------------------|
+| PSU-3000-X | $2,999 USD | $2,699 USD | $2,399 USD |
+| PSU-3000-X-LV | $3,299 USD | $2,999 USD | $2,699 USD |
+
+*Early adopter pricing valid for orders placed before 2025-12-31
+**Upgrade pricing for customers trading in PSU-3000 units (see trade-in program below)
+
+Contact sales@example.com for volume pricing and regional availability.
+
+### Availability
+
+- **Pre-orders**: Open 2025-11-15
+- **First shipments**: Week of 2025-12-15
+- **General availability**: 2026-01-15
+- **Lead time**: 2-4 weeks (varies by region and quantity)
+
+## Migration Guide
+
+For customers planning to migrate from PSU-3000 to PSU-3000-X:
+
+### Hardware Migration
+
+**Good News**: PSU-3000-X is a drop-in replacement for PSU-3000:
+
+✓ **Same physical dimensions** (3U x 19" rack mount)
+✓ **Same mounting holes** and rack ear positions
+✓ **Same output terminals** (maintain existing wiring)
+✓ **Same input power** requirements (100-240 VAC)
+✓ **Compatible cooling** (same airflow direction)
+
+**Differences to Note:**
+
+⚠ **Connector locations**: Ethernet and USB ports moved to front panel
+⚠ **Wi-Fi option**: New antenna mounting location (if using Wi-Fi module)
+⚠ **Display size**: Larger touchscreen (verify clearances)
+
+### Software Migration
+
+PSU-3000-X maintains backward compatibility with PSU-3000 software:
+
+✓ **SCPI commands**: All PSU-3000 commands supported
+✓ **LabVIEW drivers**: Compatible (use PSU-3000 driver until PSU-3000-X driver available)
+✓ **Python library**: Compatible with `psu3000` package (v2.0+)
+✓ **Configuration files**: Can import PSU-3000 configurations
+
+**New Capabilities:**
+
+- Enhanced SCPI commands for new features (touchscreen control, Wi-Fi, sequences)
+- RESTful HTTP API (new in PSU-3000-X)
+- MQTT publish/subscribe for IoT integration (new in PSU-3000-X)
+
+### Detailed Migration Guide
+
+Download the comprehensive [Migration Guide PDF]({{ files.find(f => f.description.includes('migration-guide')).cdnUrl }}) for:
+
+- Step-by-step hardware replacement procedure
+- Software compatibility matrix
+- Configuration transfer instructions
+- Testing and validation procedures
+- Troubleshooting common migration issues
+
+## Trade-In Program
+
+We are offering a trade-in program for PSU-3000 owners upgrading to PSU-3000-X:
+
+### Program Details
+
+**Eligibility:**
+- Any working PSU-3000 or PSU-3000-LV unit
+- Must be within calibration date (or recently serviced)
+- No physical damage or missing components
+
+**Trade-In Value:**
+- **PSU-3000**: $600 credit toward PSU-3000-X purchase
+- **PSU-3000-LV**: $700 credit toward PSU-3000-X-LV purchase
+
+**Process:**
+1. Request trade-in quote from sales team
+2. Receive trade-in authorization and shipping instructions
+3. Place order for PSU-3000-X with trade-in credit applied
+4. Ship PSU-3000 to trade-in center (prepaid shipping label provided)
+5. Trade-in credit applied to invoice upon receipt and inspection
+
+**Program Duration:**
+- **Start:** 2025-11-15
+- **End:** 2026-06-30
+
+Contact trade-in@example.com for more information.
+
+## Support and Service
+
+### PSU-3000 Continued Support
+
+Existing PSU-3000 units remain fully supported:
+
+| Support Type | Availability Period |
+|--------------|---------------------|
+| **Firmware updates** | Until 2028-06-30 |
+| **Technical support** | Until 2031-06-30 |
+| **Spare parts** | Until 2031-06-30 |
+| **Calibration service** | Until 2031-06-30 |
+| **Warranty service** | Per warranty terms |
+
+### PSU-3000-X Support
+
+PSU-3000-X units include:
+
+- **Standard warranty**: 3 years (upgrade to 5 years available)
+- **Firmware updates**: Throughout product life
+- **Technical support**: Phone, email, web portal
+- **Calibration**: Annual calibration services available
+- **Training**: Online and on-site training options
+
+## Frequently Asked Questions
+
+### General Questions
+
+**Q: Do I need to replace my PSU-3000 units?**
+A: No. Existing units will continue to be supported for 5 years from the last shipment date (until 2031-06-30).
+
+**Q: Will my PSU-3000 firmware continue to be updated?**
+A: Yes, firmware updates will be provided until 2028-06-30 (3 years from production end).
+
+**Q: Can I still buy a PSU-3000?**
+A: Yes, until the last order date of 2026-01-15 (or while supplies last).
+
+### Technical Questions
+
+**Q: Is PSU-3000-X electrically compatible with PSU-3000?**
+A: Yes, same output specifications and connector types. Drop-in replacement for most applications.
+
+**Q: Will my existing software work with PSU-3000-X?**
+A: Yes, PSU-3000-X is backward compatible with PSU-3000 SCPI commands and drivers.
+
+**Q: Can I mix PSU-3000 and PSU-3000-X in my rack?**
+A: Yes, they can be operated side-by-side in the same rack or test system.
+
+**Q: What's the main reason to upgrade?**
+A: Improved efficiency (lower operating costs), enhanced connectivity (Ethernet/Wi-Fi), better user interface (touchscreen), and future-proofing.
+
+### Pricing and Ordering
+
+**Q: Is PSU-3000-X more expensive than PSU-3000?**
+A: Initial pricing is approximately 15% higher, but early adopter and trade-in discounts are available.
+
+**Q: Can I get volume pricing?**
+A: Yes, contact sales@example.com for volume discounts (5+ units).
+
+**Q: What if I have an existing quote for PSU-3000?**
+A: Contact your sales representative to discuss options (honor existing quote or update to PSU-3000-X).
+
+## Related Documents
+
+- [PSU-3000-X Quick Start Guide](manual-psu-3000-x-quickstart) - Getting started with new model
+- [Migration Guide](guide-migration-psu3000-to-psu3000x) - Detailed migration procedures
+- [Product Note PN-2025-10-016](pn-2025-10-016) - PSU-3000-X Wi-Fi module availability
+- **Product comparison chart** (see attached files)
+
+## Contact Information
+
+For questions about this product transition:
+
+- **Sales inquiries**: sales@example.com | +1-555-0100
+- **Technical questions**: support@example.com | +1-555-0123
+- **Trade-in program**: trade-in@example.com | +1-555-0156
+- **Product information**: [www.example.com/products/psu-3000-x](https://www.example.com/products/psu-3000-x)
+
+## Acknowledgments
+
+We appreciate your continued business and support. The PSU-3000 series has been our flagship product for 5 years, and we're excited to bring you the next generation with the PSU-3000-X series.
+
+For existing PSU-3000 customers: **Thank you** for your loyalty. Your units will continue to receive full support for years to come.
+
+## Revision History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.1 | 2025-10-28 | Updated pricing, added FAQ section |
+| 1.0 | 2025-10-15 | Initial release |
+
+---
+
+**Classification:** Public
+**Distribution:** All customers, sales partners, service centers
+**Next Review:** 2026-01-15 (at effective date)

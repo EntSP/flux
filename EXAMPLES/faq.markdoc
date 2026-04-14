@@ -1,0 +1,233 @@
+---
+id: "faq-psu-5000-output-issues"
+type: "faq"
+question: "Why does my PSU-5000 output voltage drop under load?"
+category: "troubleshooting/power-supplies"
+tags: ["psu-5000", "troubleshooting", "voltage-drop", "current-limiting"]
+language: "en-us"
+status: "published"
+creationDate: "2024-10-12"
+updateDate: "2025-09-20"
+publishDate: "2024-10-20"
+popularity: 1247
+accessLevel: ["public"]
+relatedDocuments:
+  - id: "manual-psu-5000-installation-v2"
+    relationship: "references"
+  - id: "guide-psu-quickstart"
+    relationship: "references"
+  - id: "faq-psu-5000-current-limiting"
+    relationship: "related"
+files:
+  - path: "assets/cv-cc-mode-diagram.svg"
+    type: "image"
+    description: "CV vs CC mode behavior diagram"
+  - path: "assets/voltage-drop-troubleshooting.svg"
+    type: "image"
+    description: "Troubleshooting flowchart for voltage drop"
+---
+
+# FAQ: Output Voltage Drops Under Load
+
+**Question:** {% $markdoc.frontmatter.question %}
+
+**Category:** {% $markdoc.frontmatter.category %}
+**Popularity:** {% $markdoc.frontmatter.popularity %} views
+
+---
+
+## Answer
+
+There are several common reasons why your PSU-5000 output voltage might drop when you connect a load or increase the load current. Most of these are normal operating conditions rather than problems with the unit.
+
+### 1. Current Limiting (Most Common) ✓
+
+**This is the most common cause and is usually intentional.**
+
+The PSU-5000 has a current limit setting that protects your load from excessive current. When your load tries to draw more current than the set limit, the power supply automatically reduces output voltage to maintain the current limit.
+
+**How to identify:**
+- Look for **"CC" indicator** on the front panel display
+- Current display shows the current limit value (remains constant)
+- Voltage display shows reduced voltage
+
+**Solution:**
+1. Check your current limit setting (CURRENT knob)
+2. If your load needs more current, increase the current limit
+3. Verify your load isn't shorted or damaged (very high current demand)
+
+![CV vs CC Mode Behavior]({{ files.find(f => f.description.includes('cv-cc-mode')).cdnUrl }})
+
+{% callout type="note" %}
+**This is normal operation!** Current limiting is a safety feature. If you see "CC" mode and your device isn't working, simply increase the current limit to accommodate your load's requirements.
+{% /callout %}
+
+### 2. Wire Gauge Too Small
+
+If the wires connecting your PSU to the load are too thin (high resistance), you'll experience voltage drop in the wiring itself, not the PSU.
+
+**How to identify:**
+- PSU display shows correct voltage (e.g., 12.0V)
+- Voltage measured at the load is lower (e.g., 11.5V)
+- Wires feel warm or hot during operation
+
+**Solution:**
+- Use heavier gauge wire for high-current applications
+- See wire gauge table in the [Quick Start Guide](guide-psu-quickstart)
+- Keep wire length as short as practical
+
+**Wire Gauge Guidelines:**
+
+| Current | Minimum AWG | Metric |
+|---------|-------------|--------|
+| 0-10A | 16 AWG | 1.3mm² |
+| 10-30A | 12 AWG | 3.3mm² |
+| 30-60A | 8 AWG | 8.4mm² |
+| 60-100A | 4 AWG | 21mm² |
+
+### 3. Remote Sensing Not Enabled
+
+The PSU-5000 can compensate for wire resistance using remote sensing, but it must be enabled and properly connected.
+
+**How to identify:**
+- Voltage at load is lower than PSU display
+- Remote sensing wires not connected
+- Remote sensing not enabled in settings
+
+**Solution:**
+1. Connect remote sensing wires to load (separate from power wires)
+2. Enable remote sensing in configuration menu
+3. PSU will now regulate voltage at the load instead of at the terminals
+
+See [PSU-5000 Installation Manual](manual-psu-5000-installation-v2) for remote sensing connection details.
+
+### 4. Thermal Derating
+
+At high temperatures, the PSU-5000 may reduce maximum output power to protect internal components.
+
+**How to identify:**
+- Output power reduces after extended high-power operation
+- Fan is running at high speed
+- Temperature warning indicator may be lit
+
+**Solution:**
+- Ensure adequate ventilation clearances (50mm minimum all sides)
+- Check ambient temperature (0-40°C operating range)
+- Clean dust filters if applicable
+- Allow unit to cool down
+
+{% callout type="warning" %}
+**Don't block ventilation!** The PSU-5000 can dissipate over 400W as heat at full power. Blocked ventilation can cause thermal shutdown or damage.
+{% /callout %}
+
+### 5. Over-Voltage Protection (OVP) Triggering
+
+If OVP is set too close to your desired voltage, it may interfere with normal operation.
+
+**How to identify:**
+- Voltage suddenly drops to zero
+- OVP indicator light is on
+- Unit may beep or alarm
+
+**Solution:**
+- Check OVP setting (should be 10-20% above operating voltage)
+- Reset OVP by cycling output off/on
+- Adjust OVP threshold in configuration menu
+
+### 6. Load is Faulty or Shorted
+
+A damaged load or short circuit will cause voltage collapse.
+
+**How to identify:**
+- Voltage drops immediately to near zero when load is connected
+- Current jumps to maximum or current limit
+- No gradual increase - instant drop
+
+**Solution:**
+1. **Disconnect load immediately**
+2. Measure load resistance with multimeter (power off)
+3. Verify load resistance is reasonable (not near zero ohms)
+4. Check for short circuits in wiring or connectors
+5. Test PSU with known-good load
+
+{% callout type="danger" %}
+**Short circuits can be dangerous!** If you suspect a short circuit, disconnect the load immediately and inspect all wiring before reconnecting.
+{% /callout %}
+
+### 7. Input Power Issues
+
+Insufficient or unstable input power can cause output voltage problems.
+
+**How to identify:**
+- Output voltage fluctuates or sags
+- Input voltage warning indicator
+- Happens during high power output
+
+**Solution:**
+- Verify input voltage is within specification (100-240V AC)
+- Check input power cable and connections
+- Ensure wall circuit has adequate capacity (15A minimum)
+- Try different power outlet
+
+## Troubleshooting Flowchart
+
+![Voltage Drop Troubleshooting]({{ files.find(f => f.description.includes('troubleshooting')).cdnUrl }})
+
+**Quick Diagnostic Steps:**
+
+1. **Check display for "CC" indicator**
+   - If CC: Increase current limit → Problem solved
+   - If CV: Continue to step 2
+
+2. **Measure voltage at load**
+   - Same as PSU display: Problem is in load or settings
+   - Lower than PSU display: Wire gauge issue or need remote sensing
+
+3. **Disconnect load and measure PSU output**
+   - Voltage correct with no load: Load is faulty or draws too much current
+   - Voltage still low: PSU may need service
+
+4. **Check for overheating**
+   - Fan running fast, unit hot: Improve ventilation
+   - Normal temperature: Continue troubleshooting
+
+## Still Having Issues?
+
+If you've tried these solutions and still experience voltage drop:
+
+1. **Record the following information:**
+   - Set voltage and actual voltage (at PSU and at load)
+   - Set current limit and actual current
+   - Load resistance or description
+   - Operating mode (CV or CC)
+   - Any error indicators or messages
+
+2. **Contact technical support:**
+   - Email: support@example.com
+   - Phone: +1-555-0123
+   - Include information from step 1 above
+
+3. **Possible hardware issues:**
+   - If unit is under warranty, service may be required
+   - Calibration may have drifted (annual calibration recommended)
+   - Internal fault requiring repair
+
+## Related Questions
+
+- [Why does my PSU-5000 keep entering CC mode?](faq-psu-5000-current-limiting)
+- [How do I use remote sensing on PSU-5000?](manual-psu-5000-installation-v2#remote-sensing)
+- [What causes thermal derating?](faq-psu-5000-thermal-issues)
+
+## Helpful Resources
+
+- [PSU-5000 Quick Start Guide](guide-psu-quickstart) - Basic setup and operation
+- [PSU-5000 Installation Manual](manual-psu-5000-installation-v2) - Complete documentation
+- [Support Knowledge Base](https://support.example.com) - More troubleshooting articles
+
+---
+
+**Was this helpful?** 👍 👎
+Let us know at docs@example.com
+
+**Last Updated:** {% $markdoc.frontmatter.updateDate %}
+**Views:** {% $markdoc.frontmatter.popularity %}

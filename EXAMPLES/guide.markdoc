@@ -1,0 +1,301 @@
+---
+id: "guide-psu-quickstart"
+type: "guide"
+title: "PSU-5000 Quick Start Guide - 5 Minute Setup"
+description: "Get your PSU-5000 power supply up and running in 5 minutes with this quick start guide"
+category: "quickstart/power-supplies"
+difficulty: "beginner"
+estimatedTime: 5
+tags: ["quickstart", "psu-5000", "setup", "beginner"]
+language: "en-us"
+status: "published"
+creationDate: "2024-09-01"
+updateDate: "2025-10-15"
+publishDate: "2024-09-15"
+accessLevel: ["public"]
+relatedDocuments:
+  - id: "manual-psu-5000-installation-v2"
+    relationship: "related"
+  - id: "safety-note-psu-high-voltage"
+    relationship: "references"
+  - id: "guide-psu-advanced-features"
+    relationship: "related"
+files:
+  - path: "assets/quick-connections.svg"
+    type: "image"
+    description: "Simple connection diagram"
+  - path: "assets/front-panel-labeled.jpg"
+    type: "image"
+    description: "Front panel with labeled controls"
+  - url: "https://videos.example.com/psu-5000-quickstart.mp4"
+    type: "video"
+    description: "Video walkthrough of quick start procedure"
+---
+
+# PSU-5000 Quick Start Guide
+
+**Get up and running in 5 minutes!**
+
+{% callout type="note" %}
+**Estimated Time:** {% $markdoc.frontmatter.estimatedTime %} minutes
+**Difficulty:** {% $markdoc.frontmatter.difficulty %}
+**Prerequisites:** None - perfect for first-time users!
+{% /callout %}
+
+## What You'll Need
+
+Before starting, gather these items:
+
+- ✓ PSU-5000 power supply unit
+- ✓ Power cable (included with unit)
+- ✓ Test load or device to power
+- ✓ Appropriate cables for your load
+
+{% callout type="warning" %}
+**Safety First!** Read the [High Voltage Safety Note](safety-note-psu-high-voltage) before working with the PSU-5000. This is a high-power device capable of dangerous voltages and currents.
+{% /callout %}
+
+## Step 1: Position and Power (1 minute)
+
+### Position the Unit
+
+Place your PSU-5000 on a stable, level surface:
+
+- Ensure **ventilation clearances**: minimum 50mm (2") on all sides
+- Keep away from heat sources
+- Avoid dusty or humid environments
+- For rack mounting, see the [full installation manual](manual-psu-5000-installation-v2)
+
+### Connect Power
+
+1. **Verify input voltage**: Check the voltage selector on the rear panel matches your local power (100-240V AC)
+2. **Connect power cable**: Plug into rear panel IEC connector
+3. **Plug into outlet**: Use a grounded outlet (3-prong)
+
+{% callout type="info" %}
+**Don't turn it on yet!** We'll power up in Step 4.
+{% /callout %}
+
+## Step 2: Connect Your Load (2 minutes)
+
+![Quick Connections Diagram]({{ files.find(f => f.description.includes('connection diagram')).cdnUrl }})
+
+### Output Terminals
+
+The PSU-5000 has two large output terminals on the front panel:
+
+- **Red terminal**: Positive (+) output
+- **Black terminal**: Negative (-) output / Ground reference
+
+### Making Connections
+
+1. **Turn off the load** (if it has a power switch)
+2. **Connect positive (+) wire** from red PSU terminal to load positive
+3. **Connect negative (-) wire** from black PSU terminal to load negative/ground
+4. **Tighten terminals** finger-tight (don't overtighten)
+5. **Verify polarity** - double-check connections before proceeding
+
+{% callout type="warning" %}
+**Polarity Matters!** Reversed connections can damage sensitive loads. Red = Positive, Black = Negative.
+{% /callout %}
+
+### Quick Connection Tips
+
+- Use wire appropriate for your current needs (see table below)
+- Strip only 10mm (3/8") of insulation from wire ends
+- Ensure no bare wire is exposed outside the terminals
+- Keep wires short to minimize voltage drop
+
+**Wire Gauge Quick Reference:**
+
+| Current | Minimum Wire Gauge | Example Use |
+|---------|-------------------|-------------|
+| 0-10A | 16 AWG (1.3mm²) | Small devices |
+| 10-30A | 12 AWG (3.3mm²) | Medium loads |
+| 30-60A | 8 AWG (8.4mm²) | Large loads |
+| 60-100A | 4 AWG (21mm²) | Maximum current |
+
+## Step 3: Configure Settings (1 minute)
+
+![Front Panel Controls]({{ files.find(f => f.description.includes('front-panel')).cdnUrl }})
+
+Before powering on, let's set safe initial values:
+
+### Set Voltage Limit
+
+1. Locate the **VOLTAGE** knob on the front panel
+2. Turn fully **counter-clockwise** to minimum (0V)
+3. Note the voltage display should show "0.00"
+
+### Set Current Limit
+
+1. Locate the **CURRENT** knob on the front panel
+2. Turn to desired current limit:
+   - For unknown loads: Start with **1A** (low current)
+   - For known loads: Set to load requirement + 20% margin
+3. Note the current limit display (typically green LED when not limiting)
+
+{% callout type="note" %}
+**Current Limiting Protects Your Load!** If your device draws more current than the limit, the PSU will reduce voltage to maintain the current limit. This prevents damage to sensitive loads.
+{% /callout %}
+
+## Step 4: Power Up! (30 seconds)
+
+Now we're ready to energize:
+
+1. **Press the power switch** on the front panel (usually labeled "POWER" or has a ⏻ symbol)
+2. **Wait for display** to illuminate (about 2 seconds)
+3. **Check for errors**: Display should show voltage and current readings
+4. **Verify output is off**: The "OUTPUT" indicator should be **OFF** (unit powers on with output disabled)
+
+### Initial Display
+
+When powered on, you should see:
+
+- **Voltage display**: Shows 0.00V (or near zero)
+- **Current display**: Shows 0.00A (no current flowing)
+- **Output indicator**: OFF or RED (output disabled)
+- **Mode indicator**: CV (constant voltage mode)
+
+## Step 5: Enable Output and Adjust (30 seconds)
+
+### Enable Output
+
+1. **Press the OUTPUT button** on the front panel
+2. **Output indicator** should turn **GREEN** or illuminate
+3. **Voltage is now present** at output terminals!
+
+### Adjust Voltage
+
+Now slowly increase voltage to your desired level:
+
+1. **Turn VOLTAGE knob clockwise** slowly
+2. **Watch voltage display** as it increases
+3. **Monitor your load** for normal operation
+4. **Stop at desired voltage** (e.g., 12.0V for a 12V device)
+
+### Monitor Current
+
+Keep an eye on the current display:
+
+- Current should be steady and within expected range for your load
+- If current reaches your limit, display may change color (often red) indicating current limiting
+- If in current limit mode, increase current limit or reduce load
+
+{% callout type="success" %}
+**You're Done!** Your PSU-5000 is now powering your load. Continue to next section for operation tips.
+{% /callout %}
+
+## Operation Tips
+
+### Normal Operation
+
+While your PSU-5000 is running:
+
+- **Monitor displays** periodically for unexpected changes
+- **Check for overheating**: Unit should be warm but not uncomfortably hot
+- **Listen for fan**: Fan speed increases with temperature (this is normal)
+- **Watch for alarms**: Any blinking indicators or beeping may indicate a problem
+
+### Adjusting Power
+
+To change voltage or current:
+
+- **Voltage**: Turn VOLTAGE knob to adjust output voltage
+- **Current limit**: Turn CURRENT knob to adjust current limit
+- **Fine adjustment**: Most knobs have faster adjustment when turned quickly, slower when turned slowly
+
+### Shutting Down
+
+To safely power down:
+
+1. **Turn VOLTAGE knob to minimum** (fully counter-clockwise)
+2. **Press OUTPUT button** to disable output (indicator turns off/red)
+3. **Disconnect load** (optional, but recommended for safety)
+4. **Press POWER switch** to turn off unit
+5. **Unplug power cable** if storing for extended period
+
+## Operating Modes
+
+The PSU-5000 has two primary operating modes:
+
+### Constant Voltage (CV) Mode
+
+- **Display shows "CV"** indicator
+- PSU maintains set voltage regardless of load (up to current limit)
+- **Use for:** Most general applications, powering devices at specific voltage
+
+### Constant Current (CC) Mode
+
+- **Display shows "CC"** indicator
+- PSU maintains set current limit by reducing voltage
+- **Enters automatically** when load tries to draw more than current limit
+- **Use for:** Charging batteries, LED testing, current-limited applications
+
+{% callout type="note" %}
+You don't choose the mode - the PSU automatically operates in CV or CC depending on load and settings. CV is normal, CC indicates current limiting is active.
+{% /callout %}
+
+## Troubleshooting
+
+### Nothing Happens When I Turn On Power
+
+- ✓ Check power cable is fully connected at both ends
+- ✓ Verify wall outlet has power (test with another device)
+- ✓ Check voltage selector is set correctly for your region
+- ✓ Inspect rear panel fuse (may need replacement)
+
+### Output Voltage is Zero
+
+- ✓ Verify OUTPUT button is pressed (indicator should be green/on)
+- ✓ Check VOLTAGE knob is not at minimum
+- ✓ Look for "CC" indicator - may be in current limit with very low current setting
+- ✓ Check load connections are secure
+
+### Unit Shuts Down or Beeps
+
+- ✓ Check for overheating - ensure ventilation clearances
+- ✓ Reduce output current (may be overloaded)
+- ✓ Check for short circuit in load or wiring
+- ✓ Allow unit to cool down, then retry
+
+### Can't Get Full Voltage
+
+- ✓ Check current limit - may need to increase
+- ✓ Verify load isn't drawing maximum current (100A)
+- ✓ Check wire gauge is adequate (see table in Step 2)
+- ✓ Look for "CC" indicator on display
+
+## Next Steps
+
+Congratulations on getting your PSU-5000 running! To learn more:
+
+- **Complete Manual**: See [PSU-5000 Installation Manual](manual-psu-5000-installation-v2) for full features
+- **Advanced Features**: Learn about remote sensing, programming, and sequencing
+- **Safety Information**: Review [High Voltage Safety Note](safety-note-psu-high-voltage)
+- **Video Tutorial**: Watch the [quick start video]({{ files.find(f => f.type === 'video').url }})
+
+## Need Help?
+
+If you run into issues:
+
+- **Technical Support**: support@example.com | +1-555-0123
+- **Knowledge Base**: https://support.example.com
+- **User Forum**: https://community.example.com
+- **Live Chat**: Available on our website during business hours
+
+## Feedback
+
+Is this guide helpful? We'd love to hear from you:
+
+- Email documentation feedback to: docs@example.com
+- Rate this guide on our support website
+- Suggest improvements or report errors
+
+---
+
+**Quick Start Complete!** ✓
+
+You should now have your PSU-5000 powered on and operating. For most users, this quick start guide covers everything needed for daily use. Explore the complete manual to unlock advanced features like remote control, programmable sequences, and more.
+
+**Happy powering!** ⚡

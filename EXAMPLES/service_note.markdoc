@@ -1,0 +1,196 @@
+---
+id: "sn-2025-11-004"
+type: "service_note"
+title: "Firmware Update Required for PSU-5000 Units (Serial Range)"
+description: "Critical firmware update to address voltage regulation issue in specific serial number range"
+severity: "critical"
+affectedProducts: ["PSU-5000", "PSU-5000-HV"]
+affectedSerialRanges:
+  - start: "PSU5K20250100"
+    end: "PSU5K20250850"
+tags: ["firmware", "field-service", "voltage-regulation", "psu-5000"]
+language: "en-us"
+status: "published"
+creationDate: "2025-11-04"
+updateDate: "2025-11-04"
+publishDate: "2025-11-04"
+expiryDate: "2026-02-01"
+accessLevel: ["service-techs", "engineering"]
+relatedDocuments:
+  - id: "release-1.5.0"
+    relationship: "references"
+  - id: "manual-psu-5000-service-v1"
+    relationship: "related"
+  - id: "item-2025-11-04-001"
+    relationship: "references"
+files:
+  - path: "assets/firmware-update-procedure.pdf"
+    type: "pdf"
+    description: "Detailed firmware update procedure"
+  - path: "assets/serial-check-tool.zip"
+    type: "application"
+    description: "Serial number verification tool"
+  - url: "https://downloads.example.com/firmware/psu-5000-fw-1.5.0.bin"
+    type: "firmware"
+    description: "Firmware version 1.5.0 binary"
+---
+
+# Service Note SN-2025-11-004
+
+## Critical Firmware Update Required for PSU-5000 Units
+
+**Issued:** {% $markdoc.frontmatter.publishDate %}
+**Severity:** {% $markdoc.frontmatter.severity.toUpperCase() %}
+**Expires:** {% $markdoc.frontmatter.expiryDate %}
+
+{% callout type="error" %}
+**CRITICAL**: Units in the affected serial range must be updated before being placed into service or returned to customers. This is a mandatory update.
+{% /callout %}
+
+## Affected Products
+
+- **PSU-5000** (Standard model)
+- **PSU-5000-HV** (High-voltage variant)
+
+**Serial Number Range:**
+- **From:** PSU5K20250100
+- **To:** PSU5K20250850
+
+Use the serial number verification tool (see files) to check if a specific unit is affected.
+
+## Issue Description
+
+Units within the specified serial range contain firmware version 1.4.x which has a voltage regulation instability issue under specific low input voltage conditions. This can cause:
+
+- Voltage regulation errors at input voltages below 105 VAC
+- Potential brownout of connected loads
+- Over-voltage protection (OVP) false triggers
+
+This issue is resolved in firmware version 1.5.0 and later.
+
+## Required Action
+
+### For Field Service Technicians
+
+1. **Identify affected units** using the serial check tool
+2. **Update firmware** to version 1.5.0 or later
+3. **Verify update** by checking firmware version in configuration utility
+4. **Test operation** using provided test procedure
+5. **Document completion** in service report
+
+### For Engineering/QA
+
+1. **Screen all units** before shipment to customers
+2. **Update affected units** in inventory
+3. **Apply "Firmware Updated" sticker** to rear panel
+4. **Update tracking database** with completion status
+
+## Update Procedure
+
+{% callout type="warning" %}
+Firmware update requires the unit to be **powered off and disconnected** from all loads. Allow 15 minutes for the complete procedure.
+{% /callout %}
+
+### Quick Procedure
+
+1. Download firmware binary (see files section)
+2. Connect USB cable to rear panel
+3. Launch PSU-5000 Firmware Update Utility
+4. Select firmware file: `psu-5000-fw-1.5.0.bin`
+5. Click "Update Firmware"
+6. Wait for completion (approximately 5 minutes)
+7. Power cycle unit
+8. Verify firmware version is 1.5.0 in configuration utility
+
+### Detailed Procedure
+
+For complete step-by-step instructions with screenshots, see the [Firmware Update Procedure PDF]({{ files.find(f => f.description.includes('procedure')).cdnUrl }}).
+
+## Verification
+
+After updating, verify the following:
+
+1. **Firmware version**: Must display "1.5.0" or higher
+2. **Calibration check**: Output voltage accuracy within ±0.1%
+3. **Low voltage test**: Unit operates correctly at 100 VAC input
+4. **OVP test**: Over-voltage protection triggers at configured threshold
+
+## Required Tools
+
+- USB A to B cable
+- PSU-5000 Configuration Utility (v2.1 or later)
+- Firmware binary file (download link in files section)
+- Multimeter for verification (±0.1% accuracy minimum)
+- Variable AC power source for low voltage testing
+
+## Estimated Time
+
+- **Serial check:** 2 minutes per unit
+- **Firmware update:** 15 minutes per unit
+- **Verification testing:** 20 minutes per unit
+- **Total:** Approximately 40 minutes per unit
+
+## Parts Required
+
+None - this is a firmware-only update. No hardware replacement required.
+
+## Safety Precautions
+
+{% callout type="danger" %}
+- **Disconnect all power** before connecting USB cable
+- **Remove all loads** from output terminals
+- **Do not interrupt** firmware update process
+- **Allow unit to complete** automatic power cycle
+{% /callout %}
+
+## Completion Tracking
+
+Document completion using service report form SRF-2025-FW-UPDATE with the following information:
+
+- Unit serial number
+- Firmware version before update
+- Firmware version after update
+- Verification test results
+- Technician name and date
+- Any issues encountered
+
+## Related Technical Information
+
+- [Release Notes v1.5.0](release-1.5.0) - Complete firmware changelog
+- [Release Item ENG-1423](item-2025-11-04-001) - Voltage regulation fix details
+- [PSU-5000 Service Manual](manual-psu-5000-service-v1) - General service procedures
+
+## Files & Downloads
+
+All required files are attached to this service note:
+
+1. **Firmware Update Procedure PDF** - Detailed instructions with screenshots
+2. **Serial Number Check Tool** - Windows/Linux/macOS utility to verify affected units
+3. **Firmware Binary v1.5.0** - Direct download link (external)
+
+## Questions or Issues
+
+If you encounter any problems during the update procedure:
+
+1. **Do not retry** without consulting engineering
+2. **Document the error** message or behavior
+3. **Contact technical support** immediately:
+   - Email: field-service@example.com
+   - Phone: +1-555-0199 (24/7 service line)
+   - Slack: #field-service-support
+
+## Expiry and Superseded Information
+
+This service note will expire on **2026-02-01** when all affected units in the field are expected to be updated. After the expiry date, this note will be archived but remain accessible for reference.
+
+## Revision History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2025-11-04 | Initial release |
+
+---
+
+**Service Note ID:** {% $markdoc.frontmatter.id %}
+**Authorized by:** Engineering Department
+**Classification:** Internal - Service Technicians Only

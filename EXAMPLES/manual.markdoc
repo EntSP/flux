@@ -1,0 +1,161 @@
+---
+id: "manual-psu-5000-installation-v2"
+type: "manual"
+title: "PSU-5000 Series Installation Manual"
+description: "Complete installation and setup guide for PSU-5000 series power supply units"
+category: "installation-manuals/power-supplies"
+tags: ["installation", "hardware", "power-supply", "psu-5000"]
+language: "en-us"
+status: "published"
+creationDate: "2024-08-15"
+updateDate: "2025-11-04"
+publishDate: "2024-09-01"
+version: "2.1"
+accessLevel: ["public"]
+relatedDocuments:
+  - id: "manual-psu-5000-service-v1"
+    relationship: "related"
+  - id: "safety-note-psu-high-voltage"
+    relationship: "references"
+  - id: "guide-psu-quickstart"
+    relationship: "related"
+files:
+  - path: "assets/psu-5000-front-panel.jpg"
+    type: "image"
+    description: "Front panel photograph"
+  - path: "assets/installation-diagram.svg"
+    type: "image"
+    description: "Installation wiring diagram"
+  - path: "assets/rack-mount-template.pdf"
+    type: "pdf"
+    description: "Rack mounting template (printable)"
+  - url: "https://downloads.example.com/psu-5000/specifications.pdf"
+    type: "pdf"
+    description: "Complete technical specifications (external)"
+---
+
+# PSU-5000 Series Installation Manual
+
+**Version:** {% $markdoc.frontmatter.version %}
+**Last Updated:** {% $markdoc.frontmatter.updateDate %}
+
+## Introduction
+
+This manual provides comprehensive installation instructions for the PSU-5000 series programmable power supply units. Before beginning installation, ensure you have read all safety information referenced in this document.
+
+{% callout type="warning" %}
+**High Voltage Warning**: This equipment operates at dangerous voltages. Installation must be performed by qualified personnel only. See Safety Note SN-2024-HV-001 for complete safety requirements.
+{% /callout %}
+
+## Package Contents
+
+Your PSU-5000 package should include:
+
+- PSU-5000 unit
+- Power cable (region-specific)
+- Rack mounting brackets (2x)
+- USB configuration cable
+- Quick start guide
+- Safety certification documents
+
+![Front Panel]({{ files.find(f => f.path.includes('front-panel')).cdnUrl }})
+
+## Installation Steps
+
+### 1. Pre-Installation Checks
+
+Before installing your PSU-5000:
+
+1. Verify input voltage compatibility (see specifications)
+2. Ensure adequate rack space (3U height required)
+3. Confirm ambient temperature range (0-40°C)
+4. Check ventilation clearances (minimum 50mm on all sides)
+
+### 2. Rack Mounting
+
+{% callout type="note" %}
+Use the rack mounting template (see files section) to mark hole positions before drilling.
+{% /callout %}
+
+1. Attach mounting brackets to unit chassis using provided M4 screws
+2. Position unit in rack bay
+3. Secure to rack rails using M6 cage nuts and screws (not included)
+4. Verify unit is level and secure
+
+![Installation Diagram]({{ files.find(f => f.path.includes('installation-diagram')).cdnUrl }})
+
+### 3. Electrical Connections
+
+{% callout type="danger" %}
+**Disconnect all power** before making any electrical connections.
+{% /callout %}
+
+#### Input Power
+
+1. Connect input power cable to rear panel IEC C19 connector
+2. Verify input voltage selector is set correctly for your region
+3. Connect protective earth ground (required)
+
+#### Output Terminals
+
+1. Identify positive (+) and negative (-) output terminals
+2. Use appropriate wire gauge for expected current (see specifications)
+3. Torque terminal screws to 1.2 Nm
+4. Verify polarity before applying power
+
+### 4. Initial Configuration
+
+1. Connect USB cable to rear panel USB-B port
+2. Launch PSU-5000 configuration utility on your computer
+3. Set default voltage and current limits
+4. Configure over-voltage protection (OVP) threshold
+5. Save configuration to unit's non-volatile memory
+
+## Specifications
+
+For complete technical specifications, see the [external specifications document]({{ files.find(f => f.type === 'pdf' && f.description.includes('specifications')).url }}).
+
+**Quick Reference:**
+- Input Voltage: 100-240 VAC, 50/60 Hz
+- Output Voltage: 0-50 VDC
+- Output Current: 0-100 A
+- Power: 5000 W maximum
+- Dimensions: 3U x 19" rack mount
+- Weight: 15 kg
+
+## Troubleshooting
+
+### Unit Does Not Power On
+
+1. Verify input power cable is connected
+2. Check input voltage selector setting
+3. Inspect fuse on rear panel
+4. Verify cooling fans are not obstructed
+
+### Output Voltage Incorrect
+
+1. Check calibration using configuration utility
+2. Verify load connections
+3. Check for over-temperature condition
+4. Review event log for fault conditions
+
+## Related Documentation
+
+- [PSU-5000 Service Manual](manual-psu-5000-service-v1) - Maintenance and repair procedures
+- [High Voltage Safety Note](safety-note-psu-high-voltage) - Required safety information
+- [Quick Start Guide](guide-psu-quickstart) - Basic setup in 5 minutes
+
+## Support
+
+For technical support, contact:
+- Email: support@example.com
+- Phone: +1-555-0123
+- Web: https://support.example.com
+
+## Revision History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 2.1 | 2025-11-04 | Updated safety warnings, added troubleshooting section |
+| 2.0 | 2024-12-10 | Complete rewrite for new firmware version |
+| 1.0 | 2024-09-01 | Initial release |

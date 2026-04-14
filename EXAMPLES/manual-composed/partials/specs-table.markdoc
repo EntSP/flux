@@ -1,0 +1,28 @@
+## PSU-5000 Complete Specifications
+
+| Specification | PSU-5000 | PSU-5000-HV | PSU-5000-LV |
+|---------------|----------|-------------|-------------|
+| **Output Voltage** | 0-50V | 0-80V | 0-30V |
+| **Output Current** | 0-100A | 0-62.5A | 0-167A |
+| **Output Power** | 5000W | 5000W | 5000W |
+| **Voltage Resolution** | 10mV | 10mV | 10mV |
+| **Current Resolution** | 10mA | 10mA | 10mA |
+| **Voltage Accuracy** | ±(0.05% + 50mV) | ±(0.05% + 80mV) | ±(0.05% + 30mV) |
+| **Current Accuracy** | ±(0.1% + 100mA) | ±(0.1% + 63mA) | ±(0.1% + 167mA) |
+| **Ripple & Noise** | <10mVrms | <10mVrms | <10mVrms |
+| **Load Regulation** | <0.01% + 5mV | <0.01% + 8mV | <0.01% + 3mV |
+| **Line Regulation** | <0.01% + 2mV | <0.01% + 2mV | <0.01% + 2mV |
+| **Transient Response** | <100μs | <100μs | <100μs |
+| **Efficiency** | >88% typical | >88% typical | >88% typical |
+| **Input Voltage** | 100-240V AC, 50/60Hz (auto-ranging) |
+| **Input Current** | 60A max @ 100V AC |
+| **Cooling** | Variable speed fan, front-to-rear airflow |
+| **Operating Temperature** | 0°C to +40°C |
+| **Storage Temperature** | -20°C to +70°C |
+| **Humidity** | 20% to 80% RH, non-condensing |
+| **Altitude** | Up to 2000m |
+| **Dimensions** | 3U × 19" × 550mm deep (rack mount) |
+| **Weight** | 15 kg | 15 kg | 17 kg |
+| **Interfaces** | USB-B, Ethernet (RJ45), Digital I/O (DB-9) |
+| **Certifications** | CE, UL, CSA |
+| **Warranty** | 3 years |

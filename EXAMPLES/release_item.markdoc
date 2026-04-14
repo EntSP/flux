@@ -1,0 +1,12 @@
+---
+id: "item-2025-11-04-001"
+title: "Fix voltage regulator instability"
+status: "published"
+creationDate: "2025-11-04"
+updateDate: ""
+tickets: ["ENG-1423", "ENG-1458"]
+tags: ["bugfix", "firmware", "power-system"]
+language: "en-us"
+---
+
+Improved voltage regulation at low input conditions to prevent brownout.
