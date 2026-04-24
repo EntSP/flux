@@ -1,0 +1,1 @@
+In this mode, the robot executes the programmed missions. After switching the key to this mode, you can remove the key, and the robot will continue driving automatically.

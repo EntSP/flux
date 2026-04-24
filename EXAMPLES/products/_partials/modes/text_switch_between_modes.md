@@ -1,0 +1,1 @@
+You switch between modes using the Operating mode key—see {% tagref tag="control_panel" /%}. The Operating mode key can be removed from the robot in all modes.

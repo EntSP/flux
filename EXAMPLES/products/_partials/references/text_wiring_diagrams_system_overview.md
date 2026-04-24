@@ -1,0 +1,1 @@
+For technical diagrams describing the electrical connections between components in the robot, see the robot wiring diagrams on the robot's main product page.

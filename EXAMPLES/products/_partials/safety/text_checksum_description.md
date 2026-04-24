@@ -1,0 +1,1 @@
+Each configuration in the safety configuration file generates a checksum. The checksum will change if any modifications are made to the configuration.

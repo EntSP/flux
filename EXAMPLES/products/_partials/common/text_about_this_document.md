@@ -1,0 +1,1 @@
+This manual contains the information you need to operate and handle the robot safely and correctly, including identification of parts, general maintenance, description of safety functions, and step-by-step instructions to get started.

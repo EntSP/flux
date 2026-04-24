@@ -1,0 +1,1 @@
+When you press an Emergency stop button on the robot, the robot enters Emergency stop—see {% tagref tag="types_of_stop" /%}.

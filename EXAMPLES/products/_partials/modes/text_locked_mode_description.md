@@ -1,0 +1,1 @@
+In this mode, the robot is locked. You cannot start a mission or drive the robot when it is in Locked mode. Do not push or pull the robot manually while it is in locked mode.

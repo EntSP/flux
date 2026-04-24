@@ -1,0 +1,1 @@
+The robot's internal parts are accessed by removing covers. To see which compartments hold which parts, see {% tagref tag="internal_parts" /%}. To see how to remove covers, see {% tagref tag="access_internal_parts" /%}
