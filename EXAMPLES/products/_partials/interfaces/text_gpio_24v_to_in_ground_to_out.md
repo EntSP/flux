@@ -1,0 +1,1 @@
+Output pins must be connected to RTN pins, and input pins must be connected to 24 V pins.

@@ -1,0 +1,1 @@
+Keep the original packaging for future transportation of the robot. Store the packaging in dry conditions and do not expose to water.

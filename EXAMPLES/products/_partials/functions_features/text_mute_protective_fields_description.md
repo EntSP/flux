@@ -1,0 +1,1 @@
+When the robot has to move close to an obstacle, the robot can be configured to mute the Protective fields. This muting is by default enabled in the actions for docking to known markers such as charging stations, or it can manually be configured for any customized mission.

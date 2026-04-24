@@ -1,0 +1,1 @@
+If you want to verify that the safety configuration file has not been modified, you can compare the current checksums. You will need to install the latest version of SICK's Safety Designer software to see the checksums.

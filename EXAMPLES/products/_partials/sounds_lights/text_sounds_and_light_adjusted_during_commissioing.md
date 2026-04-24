@@ -1,0 +1,1 @@
+Warning sounds and indicator lights must be adjusted to the site during commissioning—see {% tagref tag="commissioning" /%}

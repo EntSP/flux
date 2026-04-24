@@ -1,0 +1,1 @@
+To see which pins in the electrical interface support this function, see {% tagref tag="electrical_interfaces_auxiliary_safety_functions" /%}

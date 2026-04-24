@@ -1,0 +1,1 @@
+The size of the robot's active Protective field changes depending on which case is active. The cases are defined by the robot's speed.

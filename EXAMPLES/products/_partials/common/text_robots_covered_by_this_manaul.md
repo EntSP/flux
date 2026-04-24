@@ -1,0 +1,1 @@
+This manual applies to the following robot models.

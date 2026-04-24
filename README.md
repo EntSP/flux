@@ -15,96 +15,61 @@ Originally conceived as a separate system for software release notes ("Flux"), t
 
 ## Document Types
 
-Adeptus supports nine document types, each with its own metadata schema defined in YAML frontmatter. All types share common fields (`id`, `type`, `title`, `description`, `status`, `language`, `creationDate`, `updateDate`, `accessLevel`, `tags`, `files`) and add type-specific fields as described below.
-
-### 1. Release Items (Atomic)
-
-Individual changes, fixes, or features that can be independently referenced and aggregated into release notes.
+Adeptus supports nine document types, each with its own metadata schema defined in YAML frontmatter. All types share common fields (`id`, `type`, `title`, `print`, `status`, `language`, `creationDate`, `updateDate`, `accessLevel`, `tags`, `files`) and add type-specific fields as described below.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | string | Unique identifier (issued by Adeptus API) |
-| `type` | string | `"release_item"` |
-| `title` | string | Short description of the change |
+| `id` | string | automatically assigned |
+| `type` | string | see list |
+| `title` | sting | document title |
+| `documentNumber` | int | Document number for all items that are printed (optional and triggers automated PDF generation in pipeline) |
 | `status` | string | `draft` / `review` / `published` / `archived` |
-| `language` | string | Language-country code, e.g. `"en-us"` |
-| `creationDate` | date | When the item was created |
-| `updateDate` | date | When the item was last modified |
-| `tickets` | string[] | Internal ticket references, e.g. `["ENG-1423", "ENG-1458"]` |
-| `tags` | string[] | Categories, e.g. `["bugfix", "firmware", "power-system"]` |
-| `accessLevel` | string[] | SSO groups with read access |
-| `files` | object[] | Local or external file references |
+| `version` | string | document version. default to 1.0 |
+| `language` | string | en-US |
+| `firstReleaseDate` | date | When the release was first published (auto filled by PR) |
+| `updateDate` | date | When the release was updated (auto filled by PR) |
+| `accessLevel` | string | SSO |
+| `tags` | string[] | array of tags to help categorize and search for articles |
+| `files` | string[] | associated download files |
+| `documentHistory` | object[ date , string] | array of entry objects that contain date of change and description of change |
 
-### 2. Known Issues (Atomic)
 
-Documented bugs, limitations, or problems -- the complement of release items.
 
-Extends the release item schema with:
+### 1. Release Notes (Atomic - but with automated component)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `severity` | string | `critical` / `high` / `medium` / `low` / `cosmetic` |
-| `affectedVersions` | string[] | Software versions affected |
-| `resolvedInVersion` | string | Version where the issue is fixed (empty if unresolved) |
-| `workarounds` | string[] | Workaround identifiers or descriptions |
-| `relatedIssues` | string[] | IDs of related known issues |
-| `discoveredDate` | date | When the issue was first observed |
-| `resolvedDate` | date | When the issue was resolved |
-
-### 3. Release Notes
-
-Version-based aggregations of release items. Not atomic themselves -- they compose items by reference.
+Version-based aggregations of release items. Not atomic themselves -- they compose items by reference to JIRA tickets and include any custom texts or instructions that accompany the release
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `title` | string | Release note title |
-| `description` | string | Brief description |
-| `version` | string | Release version, e.g. `"1.5.0"` |
-| `status` | string | `draft` / `review` / `published` / `archived` |
-| `items` | string[] | Array of release item IDs to include |
-| `releaseDate` | date | When the release was published |
+| `swVersion` | string | Release version, e.g. `"1.5.0"` |
+| `swAccess` | string | `standard` / `beta` / `<specific_customer>`|
 
-### 4. Manuals (Composed)
+### 2. Manuals (Composed)
 
 Comprehensive user or service manuals. Always composed documents with an `index.markdoc` entry point referencing chapters and partials.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `title` | string | Manual title |
-| `description` | string | Brief description |
-| `category` | string | Category path, e.g. `"installation-manuals/power-supplies"` |
-| `version` | string | Document version |
-| `chapters` | string[] | Ordered array of chapter file paths |
-| `partials` | string[] | Reusable partial file paths |
-| `relatedDocuments` | object[] | Related document IDs with relationship type (`related`, `references`, `supersedes`) |
+| `hwVersionRobot`| string | (Optional) robot HW version |
+| `hwVersionTM`| string | (Optional) top module HW version |
+| `swVersion`| string | (Optional) SW version |
+| `products`| string[] | (Optional) the product the guide is relevant for |
+| `configFile` | string | Path to applicable config file |
+| `sections` | string[] | Ordered array of chapter file paths |
 
-### 5. Service Notes
+### 3. Notice (atomic)
 
-Technical service bulletins and maintenance notices targeting field service technicians and engineering.
+Technical service/safety bulletins and maintenance notices targeting field service technicians and engineering.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `title` | string | Service note title |
-| `description` | string | Description |
-| `severity` | string | `info` / `warning` / `critical` |
+| `category` | string | `product` / `safety` |
 | `affectedProducts` | string[] | Product identifiers |
-| `affectedSerialRanges` | object[] | Serial number ranges (optional) |
+| `affectedHwRanges` | object[] | Serial number ranges (optional) |
 | `expiryDate` | date | When the note becomes obsolete |
 
-### 6. Safety Notes
 
-Safety warnings and regulatory compliance information. Rarely archived.
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `title` | string | Safety note title |
-| `description` | string | Description |
-| `severity` | string | `caution` / `warning` / `danger` |
-| `regulatoryStandards` | string[] | Standards, e.g. `["IEC 61010-1", "UL 61010-1"]` |
-| `affectedProducts` | string[] | Product identifiers |
-| `affectedSerialRanges` | object[] | Serial number ranges (optional) |
-
-### 7. Product Notes
+### 4. Product Notes
 
 Product announcements, transitions, end-of-life notices.
 
@@ -112,23 +77,24 @@ Product announcements, transitions, end-of-life notices.
 |-------|------|-------------|
 | `title` | string | Product note title |
 | `description` | string | Description |
-| `noteType` | string | `new_product` / `update` / `replacement` / `retired` / `eol` |
+| `noteType` | string | `new_product` / `hw_update` / `replacement` / `retired` / `eol` |
 | `affectedProducts` | string[] | Products being changed |
 | `replacementProducts` | string[] | Replacement product identifiers (if applicable) |
 | `effectiveDate` | date | When the change takes effect |
 
-### 8. Guides (Atomic or Composed)
+### 5. Article (Atomic)
 
-How-to guides, tutorials, and quickstart documentation. Simple guides are single files; comprehensive guides use the composed document structure.
+How-to guides, tutorials, and feature documentation that are collected on one page
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `difficulty` | string | `beginner` / `intermediate` / `advanced` |
-| `estimatedTime` | number | Estimated completion time in minutes |
-| `sections` | string[] | Section file paths (for composed guides, optional) |
-| `partials` | string[] | Reusable partial file paths (optional) |
+| `hwVersionRobot`| string | (Optional) robot HW version |
+| `hwVersionTM`| string | (Optional) top module HW version |
+| `swVersion`| string | (Optional) SW version |
+| `products`| string[] | (Optional) the product the guide is relevant for |
+| `orderNumber` | int | (optional) for spare part guides |
 
-### 9. FAQs (Atomic)
+### 6. FAQs (Atomic)
 
 Frequently asked questions, individually authored and independently searchable.
 
@@ -151,11 +117,12 @@ Every document begins with a YAML frontmatter block:
 id: "item-2025-11-04-001"
 type: "release_item"
 title: "Fix voltage regulator instability"
+documentNumber : 12345678
 status: "published"
+version: 1.0
 language: "en-us"
-creationDate: "2025-11-04"
+firstReleaseDate: "2025-11-04"
 updateDate: ""
-tickets: ["ENG-1423", "ENG-1458"]
 tags: ["bugfix", "firmware", "power-system"]
 accessLevel: ["engineering", "public"]
 files:
@@ -167,18 +134,12 @@ files:
     description: "Complete UI/UX design specification"
 ---
 ```
+### JIRA ticket component
 
-### Template Functions
+Release notes use JIRA ticket component that fetches JIRA tickets with selected filtering
 
-Release notes use template functions to reference and render release items:
+{{ renderReleaseTickets("fixVersion"="x.x.x", "ReleaseNote"="Published") }}
 
-```markdoc
-{# Include a specific release item by ID #}
-{{ releaseItem("item-2025-11-04-001") }}
-
-{# Render all items listed in the frontmatter items[] array #}
-{{ renderReleaseItems() }}
-```
 
 ### Partials
 
@@ -196,11 +157,11 @@ Partials can themselves include other partials. The CI/CD pipeline resolves them
 Structured callout blocks for warnings, notes, and other highlighted content:
 
 ```markdoc
-{% callout type="danger" %}
+{% callout type="warning" %}
 **HIGH VOLTAGE**: Installation must be performed by qualified personnel only.
 {% /callout %}
 
-{% callout type="warning" %}
+{% callout type="caution" %}
 Do not interrupt the firmware update process.
 {% /callout %}
 
@@ -212,12 +173,9 @@ Current limiting is a safety feature, not a fault condition.
 Remote sensing compensates for voltage drop in output cables.
 {% /callout %}
 
-{% callout type="success" %}
-Your PSU-5000 is now powering your load.
-{% /callout %}
 ```
 
-Supported types: `danger`, `warning`, `note`, `info`, `success`.
+Supported types: `caution`, `warning`, `note`, `info`
 
 ### Template Variables
 
@@ -229,6 +187,18 @@ Frontmatter values are accessible within the document body:
 **Severity:** {% $markdoc.frontmatter.severity.toUpperCase() %}
 ```
 
+Global variables are also accessible
+
+{% $global.mir100 %}
+{% $global.companyName %}
+
+
+Config variables are also accessible and can be used in conditional statements and image paths
+
+{% $config.modelName %}
+{% if $config.isForklift %}
+{% img src="img/path/file_name_{$config.model}.png" %}
+
 ### File References
 
 Documents reference local or external files declared in frontmatter. Within the document body, CDN URLs for local files are resolved using expression syntax:
@@ -239,17 +209,26 @@ Documents reference local or external files declared in frontmatter. Within the 
 See the [design specification]({{ files.find(f => f.description.includes('design specification')).url }}).
 ```
 
+
+Documents reference to other tags within the project. In the case the same tag is used (e.g. if used in a partial and is used several places) the reference should use the tag with "shortest folder distance". 
+```markdoc
+# Header 1 {% tag id="header1"%}
+
+ ...
+
+For more info see {% tagref id="header1" %}
+
+```
+
 ## Atomic vs Composed Documents
 
 Flux defines two fundamental document structures.
 
 ### Atomic Documents
 
-A single `.markdoc` file containing all content and metadata. No external file dependencies beyond optional media assets.
+A single `.markdoc` file containing all content and metadata. No external file dependencies beyond optional media assets and partials.
 
-**Types that are always atomic:** Release Items, Known Issues, FAQs, Product Notes.
-
-**Types that may be atomic:** Service Notes, Safety Notes, Guides.
+**Types that are always atomic:** Everything except manuals
 
 ```
 release-items/
@@ -261,8 +240,6 @@ release-items/
 A directory containing an `index.markdoc` entry point that declares chapters, partials, and assets. The entry point's frontmatter includes `chapters[]` and `partials[]` arrays listing the constituent files. The body uses `{% partial %}` tags to assemble the full document.
 
 **Types that are always composed:** Manuals.
-
-**Types that may be composed:** Guides (when sufficiently complex).
 
 ```
 manual-composed/
@@ -293,57 +270,18 @@ The `index.markdoc` body typically looks like:
 
 During CI/CD processing, all partials are resolved recursively and merged into a single document before upload to Adeptus.
 
-## Examples Directory Guide
-
-The `EXAMPLES/` directory contains working samples for every supported document type.
-
-### Atomic Document Examples
-
-| File | Type | Description |
-|------|------|-------------|
-| `release_item.markdoc` | Release Item | Voltage regulator bug fix -- minimal frontmatter example |
-| `release_item_with_files.markdoc` | Release Item | Web UI power graphs -- demonstrates local and external file references, CDN URL expressions, and rich content |
-| `known_issue.markdoc` | Known Issue | Graph rendering failure with >10,000 data points -- severity, affected versions, workarounds, related issues |
-| `release_note.markdoc` | Release Note | v1.5.0 release using `{{ releaseItem("id") }}` to include individual items |
-| `release_note-alt_format.markdoc` | Release Note | v1.5.0 release using `{{ renderReleaseItems() }}` with an `items[]` array in frontmatter |
-| `service_note.markdoc` | Service Note | Critical firmware update bulletin -- severity, affected serial ranges, expiry date |
-| `safety_note.markdoc` | Safety Note | High-voltage safety and regulatory compliance -- danger severity, regulatory standards array |
-| `product_note.markdoc` | Product Note | PSU-3000 to PSU-3000-X replacement transition -- replacement products, effective date, timeline |
-| `guide.markdoc` | Guide | PSU-5000 quick start guide -- difficulty, estimated time, step-by-step instructions |
-| `faq.markdoc` | FAQ | Voltage drop troubleshooting -- question, category, popularity counter |
-
-### Single-File Manual Example
-
-| File | Type | Description |
-|------|------|-------------|
-| `manual.markdoc` | Manual (atomic) | PSU-5000 installation manual -- a complete manual in a single file with callouts, file references, and related document links |
-
-### Composed Manual Example
-
-The `manual-composed/` directory demonstrates the multi-file manual structure:
-
-```
-EXAMPLES/manual-composed/
-    index.markdoc                          # Entry point: metadata, chapter/partial declarations
-    chapters/
-        01-introduction.markdoc            # Chapter 1: welcome, manual organisation, safety callout
-        03-basic-operation.markdoc         # Chapter 3: front panel controls, operating modes, output enable
-    partials/
-        safety-banner.markdoc              # Reusable danger callout for high-voltage warning
-        front-panel-ref.markdoc            # Front panel controls and display reference table
-        specs-table.markdoc                # PSU-5000/HV/LV specification comparison table
-        footer.markdoc                     # Document information, support contacts, legal notice
-```
-
-The `index.markdoc` frontmatter declares all eight chapters and four partials (only a subset of chapters are included as examples). Chapters reference partials themselves -- for instance, `03-basic-operation.markdoc` includes `front-panel-ref.markdoc` via a `{% partial %}` tag.
-
 ## CI/CD Integration
 
 Tech writers author documents in Git repositories. On commit, a CI/CD pipeline validates content against the Flux specification and pushes it to the Adeptus backend. The pipeline performs these steps:
 
 ### 1. Change Detection
 
-The pipeline monitors paths for `.markdoc` file changes. For composed documents, any file change within the document directory triggers reprocessing of the entire document. Changes to shared partials trigger reprocessing of all documents that include them.
+The pipeline monitors paths for `.markdoc` file changes. For composed documents, any file change within the document directory triggers reprocessing of the entire document. Changes to shared partials trigger reprocessing of all documents that include them. (Ideally this should also chekc for changes in images... not sure if this is too much to ask)
+
+If a file change is detected: 
+* The `updatedDate` is updated to the current date
+* The user is displayed a list of affected documents and is prompted to describe what has been changed in each.
+* The provided description is logged in the file's document history 
 
 ### 2. Document Resolution
 
@@ -373,6 +311,7 @@ Before upload, the pipeline validates:
 - **Chapter/partial resolution**: All referenced files exist, no circular dependencies, valid Markdoc syntax.
 - **Asset validation**: All referenced local files exist, file sizes within limits, supported MIME types.
 - **Content validation**: Valid Markdoc syntax, no broken internal links, all document ID references resolve.
+- **Tag validation**: All refTags point to a valid tag that is accessible within the scope of a composed document and no conflicts between folder levels.
 
 ### 6. Upload to Adeptus
 
@@ -470,6 +409,8 @@ Rotate your device to landscape mode for better graph visibility.
 | `$language` | e.g. `"en-us"` | User's selected language |
 | `$accessLevel` | string[] | User's SSO groups (enables role-based content) |
 
+And variables defined in config or frontmatter.
+
 ### Advanced Example
 
 Variables can be combined for fine-grained conditional content:
@@ -537,37 +478,6 @@ Public files are served directly from CDN. Restricted files require signed URLs 
 Files are deduplicated by BLAKE3 hash. If two documents reference the same binary content (even under different filenames), only one copy is stored on the CDN. The `document_files` junction table tracks which documents reference which files, and a `reference_count` on each file record enables garbage collection of orphaned assets.
 
 ## Lifecycle States
-
-### Release Items
-
-```
-draft --> review --> published --> archived
-```
-
-| State | Description |
-|-------|-------------|
-| `draft` | Work in progress, not ready for inclusion in releases |
-| `review` | Complete and ready for technical/editorial review |
-| `published` | Approved and available for inclusion in releases |
-| `archived` | Superseded or no longer relevant |
-
-### Known Issues
-
-```
-open --> investigating --> workaround_available --> planned_fix --> resolved
-                                                               \-> wont_fix
-```
-
-| State | Description |
-|-------|-------------|
-| `open` | Issue reported but not yet triaged |
-| `investigating` | Engineering is analysing the root cause |
-| `workaround_available` | A workaround has been documented |
-| `planned_fix` | A fix is scheduled for a future release |
-| `resolved` | The issue has been fixed |
-| `wont_fix` | The issue will not be addressed |
-
-### Documents (All Other Types)
 
 ```
 draft --> review --> published --> archived --> unpublished

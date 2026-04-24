@@ -1,0 +1,1 @@
+Scanners measure distances to diffuse reflections, which means that a tolerance is added to the Protective fields to secure a safe detection of persons crossing the Protective fields. The tolerance distance is 65 mm.

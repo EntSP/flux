@@ -1,0 +1,1 @@
+A lift top module that can be mounted on the robot enabling it to automate the internal transport of shelves that meet specifications outlined by MiR.
